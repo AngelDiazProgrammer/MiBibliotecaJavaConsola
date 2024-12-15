@@ -6,6 +6,7 @@ package com.mycompany.actividad_2_proyecto_sistema_de_gestion_de_biblioteca;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.LinkedList;
+import java.util.*;
 
 // Clase para representar los nodos de los libros
 class NodoLibro {
@@ -20,6 +21,55 @@ class NodoLibro {
         this.derecha = null;
     }
 }
+
+// Clase para representar un grafo dirigido y ponderado
+class Grafo {
+    private Map<String, List<Arista>> adyacencia;
+
+    // Constructor
+    public Grafo() {
+        adyacencia = new HashMap<>();
+    }
+
+    // Clase para representar una arista con peso
+    private static class Arista {
+        String destino;
+        int peso;
+
+        public Arista(String destino, int peso) {
+            this.destino = destino;
+            this.peso = peso;
+        }
+    }
+
+    // Agregar nodo al grafo
+    public void agregarNodo(String nodo) {
+        if (!adyacencia.containsKey(nodo)) {
+            adyacencia.put(nodo, new ArrayList<>());
+        }
+    }
+
+    // Agregar arista entre nodos
+    public void agregarArista(String origen, String destino, int peso) {
+        agregarNodo(origen);
+        agregarNodo(destino);
+        adyacencia.get(origen).add(new Arista(destino, peso));
+    }
+
+    // Mostrar el grafo
+    public void mostrarGrafo() {
+        System.out.println("Relaciones entre usuarios y libros:");
+        for (Map.Entry<String, List<Arista>> entry : adyacencia.entrySet()) {
+            String nodo = entry.getKey();
+            System.out.print(nodo + " -> ");
+            for (Arista arista : entry.getValue()) {
+                System.out.print("[Destino: " + arista.destino + ", Peso: " + arista.peso + "] ");
+            }
+            System.out.println();
+        }
+    }
+}
+
 
 // Clase para representar el árbol binario de búsqueda de libros
 class ArbolBinarioLibros {
